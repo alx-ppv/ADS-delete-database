@@ -1,0 +1,48 @@
+{
+    "name": "deletedb",
+    "displayName": "Delete Database",
+    "description": "",
+    "version": "0.0.1",
+    "publisher": "gosho",
+    "engines": {
+        "vscode": "^1.36.0",
+        "azdata": "*"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:deletedb.delete"
+    ],
+    "main": "./extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "deletedb.delete",
+                "title": "Delete"
+            }
+        ],
+        "menus": {
+            "objectExplorer/item/context": [
+                {
+                    "command": "deletedb.delete",
+                    "when": "connectionProvider == MSSQL && nodeType && nodeType == Database",
+                    "group": "1data1"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install && node ./node_modules/azdata/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "eslint": "^4.11.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42",
+        "azdata": "1.0.0"
+    },
+    "dependencies": {}
+}

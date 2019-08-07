@@ -44,5 +44,12 @@
         "@types/mocha": "^2.2.42",
         "azdata": "1.0.0"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alx-ppv/Azure-Data-Stuo-Delete-Database.git"
+    },
+    "bugs": {
+        "url": "https://github.com/alx-ppv/Azure-Data-Studio-Delete-Database/issues"
+    }
 }

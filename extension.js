@@ -28,9 +28,9 @@ function refreshDatabases(connectionId, nodePath) {
 }
 
 function dropDatabase(connectionProfile, dbName) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         let connectionProvider = azdata.dataprotocol.getProvider("MSSQL", azdata.DataProviderType.ConnectionProvider);
-        let connectionUri = `untitled:deletedb${counter++}`;
+        let connectionUri = `deletedb:${counter++}`;
 
         connectionProvider.registerOnConnectionComplete(() => {
             let queryProvider = azdata.dataprotocol.getProvider(
@@ -39,12 +39,14 @@ function dropDatabase(connectionProfile, dbName) {
             );
 
             queryProvider.registerOnQueryComplete(result => {
-                connectionProvider.disconnect();
+                connectionProvider.disconnect(connectionUri);
+                
                 if (!result.batchSummaries[0].hasError) {
                     resolve();
                 }
                 else{
-                    vscode.window.showErrorMessage("Could not drop database :(");
+                    vscode.window.showErrorMessage("Something has gone wrong");
+                    reject();
                 }
             });
 

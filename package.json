@@ -2,7 +2,7 @@
     "name": "deletedb",
     "displayName": "Delete Database",
     "description": "",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "publisher": "AlexP",
     "engines": {
         "vscode": "^1.28.0",

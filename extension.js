@@ -27,12 +27,8 @@ function refreshDatabases(connectionId, nodePath) {
 
 function dropDatabase(connectionProfile, dbName) {
     return new Promise((resolve, reject) => {
-        azdata.connection.getActiveConnections().then(x => {
-            console.log(x);
-        });
-
-        azdata.connection.connect(connectionProfile, false, false).then(x => {
-            azdata.connection.getUriForConnection(x.connectionId).then(connectionUri => {
+        azdata.connection.connect(connectionProfile, false, false).then(connectionResult => {
+            azdata.connection.getUriForConnection(connectionResult.connectionId).then(connectionUri => {
                 let queryProvider = azdata.dataprotocol.getProvider("MSSQL", azdata.DataProviderType.QueryProvider);
                 
                 queryProvider.registerOnQueryComplete(result => {

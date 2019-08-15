@@ -30,23 +30,21 @@ function dropDatabase(connectionProfile, dbName) {
         azdata.connection.connect(connectionProfile, false, false).then(connectionResult => {
             azdata.connection.getUriForConnection(connectionResult.connectionId).then(connectionUri => {
                 let queryProvider = azdata.dataprotocol.getProvider("MSSQL", azdata.DataProviderType.QueryProvider);
-                
-                queryProvider.registerOnQueryComplete(result => {
+    
+                queryProvider.runQueryAndReturn(connectionUri, `DROP DATABASE "${dbName}"`)
+                .catch(error => {
+                    //error with code 0 is thrown when query has nothing to return
                     let connectionProvider = azdata.dataprotocol.getProvider("MSSQL", azdata.DataProviderType.ConnectionProvider);
                     connectionProvider.disconnect(connectionUri);
-                    if (!result.batchSummaries[0].hasError) {
+                    
+                    if (error.code === 0) {
                         resolve();
                     }
                     else{
                         vscode.window.showErrorMessage("Something has gone wrong");
+                        console.log(error);
                         reject();
                     }
-                });
-    
-                queryProvider.runQueryString(connectionUri, `DROP DATABASE "${dbName}"`).catch(error => {
-                    vscode.window.showErrorMessage("Could not drop database :(");
-                    reject();
-                    console.log(error);
                 });
             });
         });
